@@ -1,0 +1,22 @@
+---
+# ansible-playbook build-docker.yaml --ask-pass --extra-vars "project=PAT"
+
+- hosts: web
+  tasks:
+    - name: copy container template to remote host
+      copy:
+        src: ./assets/docker-web-template/
+        dest: /data/{{ project }}
+
+    - name: copy docker-compose.yml to {{ project }}.yml
+      copy:
+        src: /data/{{ project }}/docker-compose.yml
+        dest: /data/{{ project }}/{{ project }}.yml
+        remote_src: yes
+
+    - name: config {{ project }}.yml
+      replace:
+          path: /data/{{ project }}/{{ project }}.yml
+          regexp: 'PROJECT'
+          replace: "{{ project }}"
+          backup: yes
