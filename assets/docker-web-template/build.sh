@@ -4,7 +4,7 @@ docker exec -ti $1 sh -c "git clone https://nathaworn.pa.dootvmedia:Natawon99@gi
 docker exec -ti $1 sh -c "cd /usr/share/nginx/html/api"
 docker exec -ti $1 sh -c "composer install"
 
-docker exec -ti $1 sh -c "cp -rf /usr/share/nginx/html/_files_copy/api /usr/share/nginx/html"
+docker exec -ti $1 sh -c "cp -rf /usr/share/nginx/html/_files_copy/* /usr/share/nginx/html"
 docker exec -ti $1 sh -c "cp /usr/share/nginx/html/config/php/config-dist.php /usr/share/nginx/html/config/php/config.php"
 docker exec -ti $1 sh -c "cp /usr/share/nginx/html/config/js/config-dist.js /usr/share/nginx/html/config/js/config.js"
 docker exec -ti $1 sh -c "cp /usr/share/nginx/html/backend/config/config-dist.js /usr/share/nginx/html/backend/config/config.js"
@@ -20,6 +20,7 @@ docker exec -ti $1 sh -c echo 'sass --update /usr/share/nginx/html/scss/themes/d
 docker exec -ti $1 sh -c echo 'cd /usr/share/nginx/html/api;' >> /usr/share/nginx/html/.git/hooks/post-merge;
 docker exec -ti $1 sh -c echo 'composer install;' >> /usr/share/nginx/html/.git/hooks/post-merge;
 docker exec -ti $1 sh -c echo 'php artisan geoip:update;' >> /usr/share/nginx/html/.git/hooks/post-merge;
+docker exec -ti $1 sh -c "echo 'chown -R www-data:www-data /usr/share/nginx/html;' >> /usr/share/nginx/html/.git/hooks/post-merge;"
 docker exec -ti $1 sh -c chmod +x /usr/share/nginx/html/.git/hooks/post-merge;
 docker exec -ti $1 sh -c chown -R www-data:www-data /usr/share/nginx/html;
 
